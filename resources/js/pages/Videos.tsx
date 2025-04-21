@@ -55,15 +55,17 @@ const Videos: React.FC = () => {
         </div>
 
         {/* Video List Section */}
-        <VideoList 
-          videos={videos} 
-          mode={mode} 
-          isMuted={isMuted} 
-        />
-
-        <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-          <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-        </div>
+        {videos.length > 0 ? (
+          <VideoList 
+            videos={videos} 
+            mode={mode} 
+            isMuted={isMuted} 
+          />
+        ) : (
+          <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
+            <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+          </div>
+        )}
       </div>
     </div>
   );

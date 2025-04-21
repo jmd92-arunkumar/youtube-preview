@@ -14,63 +14,62 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, mode, isMuted }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<ReactPlayer | null>(null);
-  const videoStateRef = useRef<'idle' | 'playing' | 'ended'>('idle'); // Track state of the video
-  const justEndedRef = useRef(false); // Flag to track if the video just ended
+  const videoStateRef = useRef<'idle' | 'playing' | 'paused' | 'ended'>('idle');
+  const playbackPositionRef = useRef(0); // Track playback position
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMouseEnter = () => {
-    if (videoStateRef.current === 'ended') {
-      return; // Don't start the video if it just ended
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
     }
     setIsHovered(true);
     setShowVideo(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (videoStateRef.current === 'playing') {
-      // Only pause if the video is currently playing
-      videoRef.current?.getInternalPlayer()?.pause();
-      videoStateRef.current = 'idle';
-      toast.info('Video Paused');
-    }
-    setShowVideo(false);
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+      if (videoStateRef.current === 'playing') {
+        // Save current position before pausing
+        playbackPositionRef.current = videoRef.current?.getCurrentTime() || 0;
+        videoRef.current?.getInternalPlayer()?.pause();
+      }
+      setShowVideo(false);
+    }, 200);
   };
 
   const onVideoStart = useCallback(() => {
-    if (videoStateRef.current !== 'ended') {
-      videoStateRef.current = 'playing';
-      toast.success('Video Started');
+    // Seek to saved position when starting
+    if (playbackPositionRef.current > 0) {
+      videoRef.current?.seekTo(playbackPositionRef.current);
     }
+    videoStateRef.current = 'playing';
+    toast.success('Video started');
   }, []);
 
   const onVideoPause = useCallback(() => {
-    if (videoStateRef.current !== 'ended') {
-      videoStateRef.current = 'idle';
-      toast.info('Video Paused');
-    }
-  }, []);
-
-  const onVideoEnd = useCallback(() => {
-    if (videoStateRef.current !== 'ended') {
-      videoStateRef.current = 'ended';
-      toast.success('Video Ended');
-      justEndedRef.current = true;
-      // Auto restart after a 5-second delay if user has not hovered
-      setTimeout(() => {
-        if (!isHovered) {
-          videoStateRef.current = 'playing';
-          setShowVideo(true);
-          toast.success('Video Restarted');
-        }
-      }, 5000);
+    if (videoStateRef.current === 'playing') {
+      // Save current position when manually paused
+      playbackPositionRef.current = videoRef.current?.getCurrentTime() || 0;
+      videoStateRef.current = 'paused';
+      if (isHovered) {
+        toast.info('Video paused');
+      }
     }
   }, [isHovered]);
 
+  const onVideoEnd = useCallback(() => {
+    playbackPositionRef.current = 0; // Reset position when video ends
+    videoStateRef.current = 'ended';
+    toast.warning('Video ended');
+    setShowVideo(false);
+  }, []);
+
   useEffect(() => {
-    // Cleanup when component is unmounted
     return () => {
-      // Clear any timeouts that might still be running
-      justEndedRef.current = false;
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -81,7 +80,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, mode, isMuted }) => {
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative aspect-video w-full rounded-xl overflow-hidden">
-        {mode === 'interactive' && isHovered && showVideo ? (
+        {mode === 'interactive' && showVideo ? (
           <VideoPlayer
             videoUrl={video.videoUrl}
             isMuted={isMuted}
@@ -90,7 +89,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, mode, isMuted }) => {
             onVideoPause={onVideoPause}
             onVideoEnd={onVideoEnd}
             controls={true}
-            playing={isHovered && showVideo && videoStateRef.current !== 'ended'}
+            playing={isHovered && videoStateRef.current !== 'ended'}
           />
         ) : (
           <img
@@ -115,7 +114,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, mode, isMuted }) => {
             </p>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

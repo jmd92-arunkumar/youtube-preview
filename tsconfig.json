@@ -113,7 +113,7 @@
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         },
         "jsx": "react-jsx",
-        "types": ["react", "react-dom"]
+       "types": ["react", "react-dom", "react-toastify"]
     },
     "include": [
         "resources/js/**/*.ts",
