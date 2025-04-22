@@ -5,15 +5,14 @@ This project implements a YouTube-like video preview feature, built using React 
 
 
 ## Technologies Used
-- **Frontend**: React.js (with TypeScript), Shadcn UI, Tailwind CSS.
+- **Frontend**: React.js (with TypeScript), Tailwind CSS.
 - **Backend**: Laravel 12, Inertia.js.
 - **Database**: SQLite (for video data).
-- **Video Player**: React Player for embedded video playback.
 
 ## Prerequisites
 Before running the project, make sure you have the following installed:
-- **Node.js** (version 14.x or later)
-- **PHP** (version 7.4 or later)
+- **Node.js** (version 20.x or later)
+- **PHP** (version 8.3 or later)
 - **Composer** (for managing PHP dependencies)
 - **SQLite** (for the database)
 
@@ -32,10 +31,6 @@ Before running the project, make sure you have the following installed:
      ```
 
 3. **Set Up the Backend**:
-   - Navigate to the `backend` folder:
-     ```bash
-     cd backend
-     ```
    - Install PHP dependencies with Composer:
      ```bash
      composer install
@@ -52,21 +47,6 @@ Before running the project, make sure you have the following installed:
      DB_DATABASE=database/database.sqlite
      ```
 
-5. **Run Migrations**:
-   - Run the migrations to set up the database:
-     ```bash
-       php artisan migrate
-     ```
-
-6. **Start the Development Server**:
-   - Start the Laravel server:
-     ```bash
-       php artisan serve
-     ```
-   - Start the React development server:
-     ```bash
-       npm run dev
-     ```
 ##Development Setup
 1. Run Laravel Config Cache and Clear Cache:
    - Clear any existing configuration and cache:
@@ -76,7 +56,7 @@ Before running the project, make sure you have the following installed:
      ```bash
         php artisan cache:clear
      ```
-3. Run Migrations:
+2. Run Migrations:
    - Ensure your database is up-to-date by running migrations:
       ```bash
       php artisan migrate
@@ -86,25 +66,12 @@ Before running the project, make sure you have the following installed:
        ```bash
        php artisan db:seed
       ```
-5. For this project to seed the dummy video files please run below command:
-    ```bash
-       php artisan db:seed --class=VideoSeeder
-    ```
 
 ## Start the application
 1. Run the composer command below to start the frontend and backend in dev mode
    ```bash
    composer run dev
    ```
-2.  To run the application in prod mode for
-  - Frontend run the below
-    ```bash
-    npm run prod
-    ```
-  - Backend needs to be setup with the apache server or by running
-    ```bash
-      php artisan serve
-    ```
 
 
 ![image](https://github.com/user-attachments/assets/9935a178-f8e7-4cff-8f09-1663f9edaae3)

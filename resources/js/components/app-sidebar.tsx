@@ -24,7 +24,6 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href="/videos" prefetch>
-                                <AppLogo />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
