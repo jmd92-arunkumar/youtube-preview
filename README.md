@@ -36,6 +36,11 @@ Before running the project, make sure you have the following installed:
      composer install
      ```
 
+4. Generate Application Key 
+    ```bash
+        php artisan key:generate
+    ```
+
 4. **Set Up Environment**:
    - Copy the `.env.example` file to `.env`:
      ```bash
@@ -48,7 +53,29 @@ Before running the project, make sure you have the following installed:
      ```
 
 ##Development Setup
-1. Run Laravel Config Cache and Clear Cache:
+1. Create database/database.sqlite:
+    - In Powershell
+      ```bash
+          New-Item -ItemType File -Path "database/database.sqlite"
+      ```
+    - In CMD
+      ```bash
+          type nul > database\database.sqlite
+      ```
+2. Run Migrations:
+   - Ensure your database is up-to-date by running migrations:
+      ```bash
+      php artisan migrate
+     ```
+
+
+3. Run Seeders:
+  - Run the seeder to populate the database with dummy data:
+      ```bash
+         php artisan db:seed --class=VideoDetailSeeder
+     
+
+4. Run Laravel Config Cache and Clear Cache:
    - Clear any existing configuration and cache:
      ```bash
         php artisan config:cache
@@ -56,16 +83,7 @@ Before running the project, make sure you have the following installed:
      ```bash
         php artisan cache:clear
      ```
-2. Run Migrations:
-   - Ensure your database is up-to-date by running migrations:
-      ```bash
-      php artisan migrate
-     ```
-4. Run Seeders (Optional, to Seed Dummy Data):
-   - If you want to populate your database with some dummy data, run:
-       ```bash
-       php artisan db:seed
-      ```
+ ```
 
 ## Start the application
 1. Run the composer command below to start the frontend and backend in dev mode
@@ -73,6 +91,12 @@ Before running the project, make sure you have the following installed:
    composer run dev
    ```
 
+  ## Sample Application
 
-![image](https://github.com/user-attachments/assets/9935a178-f8e7-4cff-8f09-1663f9edaae3)
+  Here is a preview of the application in action:
+
+  ![YouTube Preview App](https://github.com/user-attachments/assets/9935a178-f8e7-4cff-8f09-1663f9edaae3)
+
+  This image demonstrates the grid layout of videos with hover-to-play functionality. Each video can be muted/unmuted and controlled directly from the interface.
+
 
