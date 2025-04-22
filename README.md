@@ -20,7 +20,9 @@ Before running the project, make sure you have the following installed:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/your-repository-name.git
+    git clone https://github.com/jmd92-arunkumar/youtube-preview.git
+    ```
+   ```bash
    cd youtube-video-preview
    ```
 
@@ -35,12 +37,7 @@ Before running the project, make sure you have the following installed:
      ```bash
      composer install
      ```
-
-4. Generate Application Key 
-    ```bash
-        php artisan key:generate
-    ```
-
+     
 4. **Set Up Environment**:
    - Copy the `.env.example` file to `.env`:
      ```bash
@@ -52,7 +49,14 @@ Before running the project, make sure you have the following installed:
      DB_DATABASE=database/database.sqlite
      ```
 
-##Development Setup
+5. Generate Application Key 
+    ```bash
+        php artisan key:generate
+    ```
+
+
+
+## Development Setup
 1. Create database/database.sqlite:
     - In Powershell
       ```bash
@@ -73,7 +77,7 @@ Before running the project, make sure you have the following installed:
   - Run the seeder to populate the database with dummy data:
       ```bash
          php artisan db:seed --class=VideoDetailSeeder
-     
+     ```
 
 4. Run Laravel Config Cache and Clear Cache:
    - Clear any existing configuration and cache:
@@ -83,7 +87,6 @@ Before running the project, make sure you have the following installed:
      ```bash
         php artisan cache:clear
      ```
- ```
 
 ## Start the application
 1. Run the composer command below to start the frontend and backend in dev mode
